@@ -3,7 +3,7 @@
 class wpMandrill_HowTos {
     static function show($section) {
         $section = strtolower($section);
-        if ( !in_array($section, array('intro','auto','regular','filter','direct','regions') ) ) $section = 'auto';
+        if ( !in_array($section, array('intro','auto','regular','filter', 'nl2br', 'direct','regions') ) ) $section = 'auto';
         
         $title = '';
         
@@ -18,6 +18,9 @@ class wpMandrill_HowTos {
                 break;
             case 'filter':
                 $title = __('Mandrill: How to modify a certain email using the <em>mandrill_payload</em> WordPress filter.', 'wpmandrill');
+                break;
+            case 'nl2br':
+                $title = __('Mandrill: How to tell WordPress to change line feeds by BR tags in a certain email using the <em>mandrill_nl2br</em> WordPress filter.', 'wpmandrill');
                 break;
             case 'direct':
                 $title = __('Mandrill: How to send emails from within your plugins.', 'wpmandrill');
@@ -129,7 +132,27 @@ HTML;
     </span>
         ';
     }
-
+    
+    static function showSectionNl2br() {
+        return '
+    <span class="setting-description">
+        <p>'.__('That\'s easy! Just do something like this:', 'wpmandrill').'</p>
+        <p>
+            <blockquote><pre>
+                &lt;?php
+                &nbsp;&nbsp;&nbsp;function forgotMyPasswordEmails($nl2br, $message) {	                
+	                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( in_array( \'wp-retrieve_password\', $message[\'tags\'][\'automatic\'] ) ) {
+		                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$nl2br = true;
+	                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+	                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return $nl2br;
+                &nbsp;&nbsp;&nbsp;}
+                &nbsp;&nbsp;&nbsp;add_filter( \'mandrill_nl2br\', \'forgotMyPasswordEmails\' );
+                ?&gt;
+            </pre></blockquote>
+        </p>
+    </span>
+        ';
+    }
     static function showSectionDirect() {
         return '
     <span class="setting-description">

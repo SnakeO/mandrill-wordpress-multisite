@@ -385,16 +385,24 @@ class Mandrill {
 	 * @return array|Mandrill_Exception
 	 */
 	function messages_send($message) {
-		return $this->request('messages/send', array('message' => $message) );
+		$async = $message['async'];
+		$ip_pool = $message['ip_pool'];
+		$send_at = $message['send_at'];
+		
+		return $this->request('messages/send', array('message' => $message, 'async' => $async, 'ip_pool' => $ip_pool, 'send_at' => $send_at) );
 	}
-
+ 
 	/**
 	 * @link https://mandrillapp.com/api/docs/messages.html#method=send-template
 	 *
 	 * @return array|Mandrill_Exception
 	 */
 	function messages_send_template($template_name, $template_content, $message) {
-		return $this->request('messages/send-template', compact('template_name', 'template_content','message') );
+		$async = $message['async'];
+		$ip_pool = $message['ip_pool'];
+		$send_at = $message['send_at'];
+		
+		return $this->request('messages/send-template', compact('template_name', 'template_content','message', 'async', 'ip_pool', 'send_at') );
 	}
 
     function http_request($url, $fields = array(), $method = 'POST') {
